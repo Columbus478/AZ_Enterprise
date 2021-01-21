@@ -7,9 +7,11 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.AZ_Enterprise.Service.TransactionService;
 import com.example.AZ_Enterprise.model.Transaction;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,31 +20,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Samuel Columbus Jan 21, 2021
  */
-@RestController
+@Controller
 @RequestMapping("/api")
 public class TransactionDetailController {
   private static final Logger logger = LogManager.getLogger(TransactionDetailController.class);
   @Autowired
   TransactionService transactionService;
 
-  @RequestMapping("/transactions/days/{days}")
+  @ResponseBody
+  @GetMapping(path = "/transactions/days/{days}")
   public String getTransactionsByDays(@PathVariable(name = "days") String days) {
     Set<Transaction> transdetails = transactionService.getTransDeatailsByDays(days);
     if (transdetails == null) {
       logger.info("Error with getting Transaction details");
       return "redirect:/";
     }
-    String jsonString = "";
+    String jsonString = "hi";
     ObjectMapper mapper = new ObjectMapper();
     // Converting the Object to JSONString
     try {
-      jsonString = mapper.writeValueAsString(transdetails);
+      jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(transdetails);
+      logger.info("Transaction details received succesfully:{}", jsonString);
       return jsonString;
     } catch (JsonProcessingException e) {
       logger.error(e.getMessage());
     }
-    logger.info("Transaction details received succesfully");
-
     return jsonString;
   }
 
