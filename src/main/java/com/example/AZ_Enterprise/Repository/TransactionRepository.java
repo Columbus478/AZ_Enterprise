@@ -22,9 +22,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
   public Set<Transaction> getTransDeatailsByAcNum(@Param("acnumber") String acnumber);
 
   @Query(
-      value = "SELECT * FROM trandetails WHERE create_time > DATE_SUB(CURDATE(), INTERVAL 7 DAY) GROUP BY create_time",
+      value = "SELECT * FROM trandetails WHERE create_time > DATE_SUB(CURDATE(), INTERVAL :days DAY) ORDER BY create_time DESC",
       nativeQuery = true)
   public Set<Transaction> getTransDeatailsByDays(@Param("days") String days);
+
+  @Query(value = "SELECT * FROM trandetails WHERE 1", nativeQuery = true)
+  public Set<Transaction> getAllTransDeatails();
 
   @Query(value = "SELECT t.tnumber FROM trandetails t WHERE t.tnumber = :tnumber",
       nativeQuery = true)

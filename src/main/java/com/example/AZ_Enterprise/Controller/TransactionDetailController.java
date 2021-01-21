@@ -40,6 +40,29 @@ public class TransactionDetailController {
     // Converting the Object to JSONString
     try {
       jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(transdetails);
+      logger.info("Specified Transaction details are received succesfully:{}", jsonString);
+      return jsonString;
+    } catch (JsonProcessingException e) {
+      logger.error(e.getMessage());
+    }
+    return jsonString;
+  }
+
+  @ResponseBody
+  @GetMapping(path = "/transactions/days")
+  public String getTransactionsByDays() {
+    // No day is passed, Get All trans
+    Set<Transaction> transdetails = null;
+    transdetails = transactionService.getAllTransDeatails();
+    if (transdetails == null) {
+      logger.info("Error with getting Transaction details");
+      return "redirect:/";
+    }
+    String jsonString = "hi";
+    ObjectMapper mapper = new ObjectMapper();
+    // Converting the Object to JSONString
+    try {
+      jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(transdetails);
       logger.info("Transaction details received succesfully:{}", jsonString);
       return jsonString;
     } catch (JsonProcessingException e) {

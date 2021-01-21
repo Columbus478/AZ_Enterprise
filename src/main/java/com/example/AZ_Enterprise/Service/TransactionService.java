@@ -31,6 +31,10 @@ public class TransactionService {
     return transactionRepository.getTransDeatailsByDays(days);
   }
 
+  public Set<Transaction> getAllTransDeatails() {
+    return transactionRepository.getAllTransDeatails();
+  }
+
   public int saveTransDetails(Transaction transaction) {
     return transactionRepository.saveTransDetails(transaction.getAcnumber(),
         transaction.getPayerId(), transaction.getState(), transaction.getTransaction_amount(),
