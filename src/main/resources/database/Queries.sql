@@ -15,5 +15,5 @@ private String cust_username;
   private Date aod;
   private String atype;
   private String astatus;
-INSERT INTO account VALUES('AB',1000.00,235000.00,'2012-12-15','Saving','Active');
-INSERT INTO account VALUES('AC',1000.00,235000,00'2012-06-12','Saving','Active');
+INSERT INTO account VALUES('A0001',1000.00,235000.00,'2012-12-15','Saving','Active');
+INSERT INTO account VALUES('A0002',1000.00,235000,00'2012-06-12','Saving','Active');

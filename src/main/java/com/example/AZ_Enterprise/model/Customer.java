@@ -3,9 +3,8 @@
  */
 package com.example.AZ_Enterprise.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -24,7 +23,7 @@ public class Customer {
    * @param lastName
    * @param email
    */
-  public Customer(Long id, String firstName, String lastName, String username, String email) {
+  public Customer(String id, String firstName, String lastName, String username, String email) {
     super();
     this.id = id;
     this.firstName = firstName;
@@ -34,24 +33,24 @@ public class Customer {
   }
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
   private String firstName;
   private String lastName;
+  @Column(name = "username", unique = true)
   private String username;
   private String email;
 
   /**
    * @return the id
    */
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
   /**
    * @param id the id to set
    */
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

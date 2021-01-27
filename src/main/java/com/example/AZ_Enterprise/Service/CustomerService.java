@@ -25,7 +25,7 @@ public class CustomerService {
     return customerRepository.save(customerModel);
   }
 
-  public boolean deleteCustomer(Long customerId) {
+  public boolean deleteCustomer(String customerId) {
     customerRepository.deleteById(customerId);
     return true;
   }
@@ -35,9 +35,13 @@ public class CustomerService {
     return customerList;
   }
 
-  public Customer getCustomerById(Long customerId) {
+  public Customer getCustomerById(String customerId) {
     return customerRepository.findById(customerId)
         .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+  }
+
+  public String getCustIDByUsername(String username) {
+    return customerRepository.getCustIDByUsername(username);
   }
 
   private Customer setToCustomerEntity(Customer customer) {

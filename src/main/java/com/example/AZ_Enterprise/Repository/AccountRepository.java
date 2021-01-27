@@ -31,13 +31,14 @@ public interface AccountRepository extends JpaRepository<Account, String> {
   public Account getAccountByUsername(@Param("username") String username);
 
   @Modifying
-  @Query(value = "DELETE FROM ACCOUNT WHERE ACCOUNT.username = :username", nativeQuery = true)
-  public int deleteAccount(@Param("username") String username);
-
-  @Modifying
   @Query(
       value = "UPDATE account a SET a.current_balance = :current_balance WHERE a.acnumber = :acnumber AND a.custid = :custid",
       nativeQuery = true)
   public int updateAccount(@Param("acnumber") String acnumber, @Param("custid") String custid,
       @Param("current_balance") int current_balance);
+
+  @Modifying
+  @Query(value = "DELETE FROM ACCOUNT WHERE ACCOUNT.username = :username", nativeQuery = true)
+  public int deleteAccount(@Param("username") String username);
 }
+

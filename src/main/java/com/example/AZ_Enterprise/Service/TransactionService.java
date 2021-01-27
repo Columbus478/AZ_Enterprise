@@ -27,6 +27,10 @@ public class TransactionService {
     return transactionRepository.getTransDeatailsIDByTransId(tnumber);
   }
 
+  public Transaction getTransDeatailsIDByPayerId(String payerId) {
+    return transactionRepository.getTransDeatailsIDByPayerId(payerId);
+  }
+
   public Set<Transaction> getTransDeatailsByDays(String days) {
     return transactionRepository.getTransDeatailsByDays(days);
   }

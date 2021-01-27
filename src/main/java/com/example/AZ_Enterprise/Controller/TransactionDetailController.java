@@ -7,15 +7,17 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.AZ_Enterprise.Service.TransactionService;
+import com.example.AZ_Enterprise.Utility.JSONParser;
 import com.example.AZ_Enterprise.model.Transaction;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Samuel Columbus Jan 21, 2021
@@ -33,18 +35,10 @@ public class TransactionDetailController {
     Set<Transaction> transdetails = transactionService.getTransDeatailsByDays(days);
     if (transdetails == null) {
       logger.info("Error with getting Transaction details");
-      return "redirect:/";
+      throw new RuntimeException("Error with getting Transaction details.");
     }
-    String jsonString = "hi";
-    ObjectMapper mapper = new ObjectMapper();
-    // Converting the Object to JSONString
-    try {
-      jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(transdetails);
-      logger.info("Specified Transaction details are received succesfully:{}", jsonString);
-      return jsonString;
-    } catch (JsonProcessingException e) {
-      logger.error(e.getMessage());
-    }
+    String jsonString = JSONParser.Object_to_JSONString(transdetails);
+    logger.info("Specified Transaction details are received succesfully:{}", jsonString);
     return jsonString;
   }
 
@@ -56,18 +50,10 @@ public class TransactionDetailController {
     transdetails = transactionService.getAllTransDeatails();
     if (transdetails == null) {
       logger.info("Error with getting Transaction details");
-      return "redirect:/";
+      throw new RuntimeException("Error with getting Transaction details.");
     }
-    String jsonString = "hi";
-    ObjectMapper mapper = new ObjectMapper();
-    // Converting the Object to JSONString
-    try {
-      jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(transdetails);
-      logger.info("Transaction details received succesfully:{}", jsonString);
-      return jsonString;
-    } catch (JsonProcessingException e) {
-      logger.error(e.getMessage());
-    }
+    String jsonString = JSONParser.Object_to_JSONString(transdetails);
+    logger.info("Transaction details received succesfully:{}", jsonString);
     return jsonString;
   }
 
@@ -79,5 +65,10 @@ public class TransactionDetailController {
       return "redirect:/";
     }
     return "redirect:/";
+  }
+
+  @ExceptionHandler(RuntimeException.class)
+  public final ResponseEntity<Exception> handelAllTransactionExceptions(RuntimeException ex) {
+    return new ResponseEntity<Exception>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

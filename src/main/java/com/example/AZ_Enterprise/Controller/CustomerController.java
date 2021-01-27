@@ -30,7 +30,7 @@ public class CustomerController {
   }
 
   @GetMapping("/customer/{id}")
-  public Customer getCustomer(@PathVariable Long id) {
+  public Customer getCustomer(@PathVariable String id) {
     return customerService.getCustomerById(id);
   }
 
@@ -40,7 +40,7 @@ public class CustomerController {
   }
 
   @DeleteMapping("/customer/{id}")
-  public Boolean deleteCustomer(@PathVariable Long id) {
+  public Boolean deleteCustomer(@PathVariable String id) {
     return customerService.deleteCustomer(id);
   }
 }

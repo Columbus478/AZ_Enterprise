@@ -33,6 +33,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
       nativeQuery = true)
   public String getTransDeatailsIDByTransId(@Param("tnumber") String tnumber);
 
+  @Query(value = "SELECT * FROM trandetails t WHERE t.payer_id = :payerId", nativeQuery = true)
+  public Transaction getTransDeatailsIDByPayerId(@Param("payerId") String payerId);
+
   @Modifying
   @Query(
       value = "INSERT INTO trandetails (acnumber, create_time, payer_id, state, transaction_amount) values (:acnumber, :create_time, :payer_id, :state, :transaction_amount)",
